@@ -1,0 +1,15 @@
+train_data_path: data/DIV2K_train_HR/
+val_data_path: data/DIV2K_valid_HR/
+
+model_d: 52
+model_s: 12
+model_m: 4
+
+batch_size: 40
+lr_init: 0.001
+epochs: 3000
+steps_per_epoch: 20
+val_batch_size: 40
+validation_steps: 2
+
+weights_fn: "weights/model_{epoch:05d}.h5"

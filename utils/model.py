@@ -13,7 +13,13 @@ def create_model(
     upscaling_factor: int = UPSCALING_FACTOR,
     color_channels: int = COLOR_CHANNELS,
 ):
-
+    """
+    FSRCNN model implementation from https://arxiv.org/abs/1608.00367
+    
+    Sigmoid Activation in the output layer is not in the original paper.
+    But it is needed to align model prediction with ground truth HR images
+    so their values are in the same range [0,1].
+    """
     model = Sequential()
     model.add(InputLayer(input_shape=(input_size[0], input_size[1], color_channels)))
 
@@ -65,6 +71,5 @@ def create_model(
             kernel_initializer=initializers.RandomNormal(mean=0, stddev=0.001),
         )
     )
-    #model.add(Activation("sigmoid"))
-    
+    model.add(Activation("sigmoid")) 
     return model

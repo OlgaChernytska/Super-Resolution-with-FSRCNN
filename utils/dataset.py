@@ -5,6 +5,7 @@ from PIL import Image
 import tensorflow as tf
 from tensorflow import keras
 import albumentations as A
+import sys
 
 from utils.constants import (
     IMAGE_FORMAT,
@@ -17,6 +18,16 @@ from utils.constants import (
 
 
 class DIV2K_Dataset(keras.utils.Sequence):
+    """
+    Loader for DIV2K dataset
+    Dataset Link: https://data.vision.ee.ethz.ch/cvl/DIV2K/
+    
+    Only high resolution (HR) images are used.
+    Low resulotion (LR) images are create from HR by bicubic interpolation
+    
+    HR train images: http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip
+    HR val images: http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_valid_HR.zip
+    """
     def __init__(self, hr_image_folder: str, batch_size: int):
         self.batch_size = batch_size
         self.hr_image_folder = hr_image_folder
@@ -52,8 +63,6 @@ class DIV2K_Dataset(keras.utils.Sequence):
             hr_image = np.array(hr_image_pil)
 
             hr_image_transform = self.transform(image=hr_image)["image"]
-            #hr_image_transform = hr_image[:HR_IMG_SIZE[0], :HR_IMG_SIZE[1], :]
-            # 
             hr_image_transform_pil = Image.fromarray(hr_image_transform)
             lr_image_transform_pil = hr_image_transform_pil.resize(
                 LR_IMG_SIZE, resample=DOWNSAMPLE_MODE
