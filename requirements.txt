@@ -1,0 +1,8 @@
+albumentations==1.0.3
+matplotlib==3.4.2
+nb-black==1.0.7
+numpy==1.19.5
+pandas==1.2.5
+Pillow==8.2.0
+tensorflow==2.3.3
+tqdm==4.61.1

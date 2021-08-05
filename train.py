@@ -12,12 +12,14 @@ def train(config_fn: str) -> None:
         config = yaml.safe_load(stream)
 
     train_dataset = DIV2K_Dataset(
-        hr_image_folder=config["train_data_path"],
+        hr_image_folder=config["data_path"],
         batch_size=config["batch_size"],
+        set_type="train",
     )
     val_dataset = DIV2K_Dataset(
-        hr_image_folder=config["val_data_path"],
+        hr_image_folder=config["data_path"],
         batch_size=config["val_batch_size"],
+        set_type="val",
     )
 
     model = create_model(d=config["model_d"], s=config["model_s"], m=config["model_m"])

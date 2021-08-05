@@ -55,7 +55,7 @@ def create_model(
                 kernel_initializer=initializers.HeNormal(),
             )
         )
-    model.add(PReLU(alpha_initializer="zeros", shared_axes=[1, 2]))
+        model.add(PReLU(alpha_initializer="zeros", shared_axes=[1, 2]))
 
     # expanding
     model.add(Conv2D(kernel_size=1, filters=d, padding="same"))

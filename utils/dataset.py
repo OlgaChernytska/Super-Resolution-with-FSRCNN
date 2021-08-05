@@ -28,21 +28,37 @@ class DIV2K_Dataset(keras.utils.Sequence):
     HR train images: http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip
     HR val images: http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_valid_HR.zip
     """
-    def __init__(self, hr_image_folder: str, batch_size: int):
+    def __init__(self, hr_image_folder: str, batch_size: int, set_type: str):
         self.batch_size = batch_size
         self.hr_image_folder = hr_image_folder
-        self.image_fns = [
+        self.image_fns = np.sort([
             x for x in os.listdir(hr_image_folder) if x.endswith(IMAGE_FORMAT)
-        ]
-        self.transform = A.Compose(
-            [
-                A.RandomCrop(width=HR_IMG_SIZE[0], height=HR_IMG_SIZE[1], p=1.0),
-                A.HorizontalFlip(p=0.5),
-                A.ColorJitter(
-                    brightness=0.1, contrast=0.1, saturation=0.1, hue=0.1, p=0.8
-                ),
-            ]
-        )
+        ])
+        
+        if set_type == "train":
+            self.image_fns = self.image_fns[:-200]
+        elif set_type == "val":
+            self.image_fns = self.image_fns[-200:-100]
+        else:
+            self.image_fns = self.image_fns[-100:]
+            
+        if set_type in ["train", "val"]:
+            self.transform = A.Compose(
+                [
+                    A.RandomCrop(width=HR_IMG_SIZE[0], height=HR_IMG_SIZE[1], p=1.0),
+                    A.HorizontalFlip(p=0.5),
+                    A.ColorJitter(
+                        brightness=0.1, contrast=0.1, saturation=0.1, hue=0.1, p=0.8
+                    ),
+                ]
+            )
+        else: 
+            self.transform = A.Compose(
+                [
+                    A.RandomCrop(width=HR_IMG_SIZE[0], height=HR_IMG_SIZE[1], p=1.0),
+                ]
+            )
+                    
         self.to_float = A.ToFloat(max_value=255)
 
     def __len__(self):
@@ -61,7 +77,7 @@ class DIV2K_Dataset(keras.utils.Sequence):
         for i, image_fn in enumerate(batch_image_fns):
             hr_image_pil = Image.open(os.path.join(self.hr_image_folder, image_fn))
             hr_image = np.array(hr_image_pil)
-
+            
             hr_image_transform = self.transform(image=hr_image)["image"]
             hr_image_transform_pil = Image.fromarray(hr_image_transform)
             lr_image_transform_pil = hr_image_transform_pil.resize(
