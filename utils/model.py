@@ -71,5 +71,5 @@ def create_model(
             kernel_initializer=initializers.RandomNormal(mean=0, stddev=0.001),
         )
     )
-    model.add(Activation("sigmoid")) 
+
     return model

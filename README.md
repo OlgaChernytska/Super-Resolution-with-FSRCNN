@@ -10,26 +10,29 @@ FSRCNN is defined in the paper and in this project as FSRCNN(d,s,m), where d, s,
 
 #### Difference with the original paper:
 
-- Sigmoid activation is added in the last layer. This is needed to align model prediction and ground truth HR images so they are in the same range - [0,1] when normalized.
-
 - RMSprop optimizer was used instead of SGD, because it helps model train faster. Added ReduceLROnPlateau and EarlyStopping callbacks.
 
-- Model was trained on [DIV2K dataset](https://data.vision.ee.ethz.ch/cvl/DIV2K/). It is a newer and larger dataset, comparing to those used in the paper - [T91](https://www.kaggle.com/ll01dm/t91-image-dataset) and [General-100](http://mmlab.ie.cuhk.edu.hk/projects/FSRCNN.html). I used only high resolution (HR) images from DIV2K, both train and validation, 900 images in total. I combined both train and validation part into a single folder and created my custom train-val-test split by image ids: ids 1-700 for train, ids 701-800 for validation, ids 801-900 for test. Low resolution (LR) images are created from high resolution images by downsampling.
+- Model was trained on [DIV2K dataset](https://data.vision.ee.ethz.ch/cvl/DIV2K/). It is a newer and larger dataset, compared to those used in the paper - [T91](https://www.kaggle.com/ll01dm/t91-image-dataset) and [General-100](http://mmlab.ie.cuhk.edu.hk/projects/FSRCNN.html). I used only high resolution (HR) images from DIV2K, both train and validation, 900 images in total. I combined both train and validation parts into a single folder and created my custom train-val-test split by image ids: ids 1-700 for train, ids 701-800 for validation, ids 801-900 for test. Low resolution (LR) images are created from high resolution images by downsampling.
 
 - RandomCrop, HorizontalFlip and ColorJitter image augmentation were used.
 
 
 #### Model Results
 
-Model PSNR on the test set = 
+- Model PSNR on the test set = 26.625
+- How model input and output look like (on Test Set):
 
-! add image
+![alt text](docs/restoration.png)
+
+- FSRCNN vs bicubic upsamling:
+
+![alt text](docs/restoration_and_bicubic.png)
+
 
 ## Project Structure
 
 ```
 .
-├── Inference.ipynb
 ├── README.md
 ├── config.yaml
 ├── data
@@ -37,6 +40,8 @@ Model PSNR on the test set =
 │       ├── 0001.png
 │       ├── ...
 │       └── 0900.png
+├── notebooks
+│   └── Inference.ipynb
 ├── requirements.txt
 ├── train.py
 ├── utils
@@ -45,7 +50,6 @@ Model PSNR on the test set =
 │   └── model.py
 └── weights
     └── model.h5
-
 ```
 
 - **utils/constants.py** - definition of constant like image size and upscaling factor
@@ -54,7 +58,7 @@ Model PSNR on the test set =
 - **train.py** - script for training. 
 - **config.yaml** - file with training parameters
 - **weights/model.h5** - trained model weights
-- **Inference.ipynb** - notebook for inference and visualization
+- **notebooks/Inference.ipynb** - notebook for inference and visualization
 
 Download [DIV2K dataset](https://data.vision.ee.ethz.ch/cvl/DIV2K/) (train + validation parts), move all images into folder **data/DIV2K_train_valid_HR**.
 

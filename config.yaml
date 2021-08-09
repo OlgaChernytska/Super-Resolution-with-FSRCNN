@@ -5,7 +5,7 @@ model_s: 12
 model_m: 4
 
 lr_init: 0.001
-epochs: 3000
+epochs: 500
 batch_size: 30
 steps_per_epoch: 20
 val_batch_size: 20
