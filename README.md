@@ -1,6 +1,6 @@
 # Super Resolution with FSRCNN
 
-Tensorflow 2 implementation of the Fast Super Resolution CNN described in paper [Accelerating the Super-Resolution Convolutional Neural Network](https://arxiv.org/abs/1608.00367). This project is a demonstraction for my blog post Learn To Reproduce Papers: Beginner’s Guide.
+Tensorflow 2 implementation of the Fast Super Resolution CNN described in paper [Accelerating the Super-Resolution Convolutional Neural Network](https://arxiv.org/abs/1608.00367). This project is a demonstraction for my blog post [Learn To Reproduce Papers: Beginner’s Guide](https://notrocketscience.blog/learn-to-reproduce-papers-beginners-guide/).
 
 ## FSRCNN Overview
 
