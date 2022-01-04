@@ -68,3 +68,5 @@ Download [DIV2K dataset](https://data.vision.ee.ethz.ch/cvl/DIV2K/) (train + val
 python3 train.py --config config.yaml
 ```
 
+## License
+This project is licensed under the terms of the [MIT license](https://choosealicense.com/licenses/mit/).
